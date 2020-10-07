@@ -32,6 +32,11 @@
         <td><%= commercial_unit.parking %></td>
         <td><%= commercial_unit.price %></td>
         <td>
+          <% if current_user.user_buys.exists?(buyings:commercial_unit) %> 
+            <%= link_to 'UnBuy', commercial_unit_unbuy_path(commercial_unit), class:"btn btn-primary" %>
+          <% else %>
+            <%= link_to 'Buy', commercial_unit_buy_path(commercial_unit), class:"btn btn-primary" %>
+          <% end %>
           <%= link_to 'Show', commercial_unit, class:"btn btn-primary" %>
           <%= link_to 'Edit', edit_commercial_unit_path(commercial_unit), class:"btn btn-primary" %>
           <%= link_to 'Destroy', commercial_unit, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-primary" %>

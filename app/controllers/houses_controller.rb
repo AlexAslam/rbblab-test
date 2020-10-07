@@ -21,6 +21,37 @@ class HousesController < ApplicationController
   def edit
   end
 
+  def buy
+    house = House.find(params[:house_id])
+    user_buy = current_user.user_buys.new
+    user_buy.buyings = house
+    respond_to do |format|
+      if user_buy.save
+        format.html { redirect_to house, notice: 'House was successfully purchased.' }
+        format.json { render :show, status: :created, location: house }
+      else
+        flash[:alert] = house.errors.full_messages.join(', ')
+        format.html { redirect_to houses_url }
+        format.json { render json: house.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def unbuy
+    house = House.find(params[:house_id])
+    user_buy = current_user.user_buys.find_by(buyings:house)
+    respond_to do |format|
+      if user_buy.destroy
+        format.html { redirect_to house, notice: 'House was successfully UnPurchased.' }
+        format.json { render :show, status: :created, location: house }
+      else
+        flash[:alert] = house.errors.full_messages.join(', ')
+        format.html { redirect_to houses_url }
+        format.json { render json: house.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # POST /houses
   # POST /houses.json
   def create

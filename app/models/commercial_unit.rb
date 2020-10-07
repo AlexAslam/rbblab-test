@@ -14,4 +14,5 @@
 #
 
 class CommercialUnit < ApplicationRecord
+	has_many :user_buys, as: :buyings, dependent: :destroy
 end

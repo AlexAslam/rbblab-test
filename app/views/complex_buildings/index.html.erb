@@ -30,6 +30,11 @@
         <td><%= complex_building.sqmt %></td>
         <td><%= complex_building.price %></td>
         <td>
+          <% if current_user.user_buys.exists?(buyings:complex_building) %> 
+            <%= link_to 'UnBuy', complex_building_unbuy_path(complex_building), class:"btn btn-primary" %>
+          <% else %>
+            <%= link_to 'Buy', complex_building_buy_path(complex_building), class:"btn btn-primary" %>
+          <% end %>
           <%= link_to 'Show', complex_building, class:"btn btn-primary" %>
           <%= link_to 'Edit', edit_complex_building_path(complex_building), class:"btn btn-primary" %>
           <%= link_to 'Destroy', complex_building, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-primary" %>

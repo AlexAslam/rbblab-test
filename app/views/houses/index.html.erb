@@ -35,6 +35,11 @@
         <td><%= house.air_cond %></td>
         <td><%= house.price %></td>
         <td>
+          <% if current_user.user_buys.exists?(buyings:house) %> 
+            <%= link_to 'UnBuy', house_unbuy_path(house), class:"btn btn-primary" %>
+          <% else %>
+            <%= link_to 'Buy', house_buy_path(house), class:"btn btn-primary" %>
+          <% end %>
           <%= link_to 'Show', house, class:"btn btn-primary" %>
           <%= link_to 'Edit', edit_house_path(house),class:"btn btn-primary" %>
           <%= link_to 'Destroy', house, method: :delete, data: { confirm: 'Are you sure?' },class:"btn btn-primary" %>

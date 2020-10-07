@@ -21,6 +21,37 @@ class CommercialUnitsController < ApplicationController
   def edit
   end
 
+  def buy
+    commercial_unit = CommercialUnit.find(params[:commercial_unit_id])
+    user_buy = current_user.user_buys.new
+    user_buy.buyings = commercial_unit
+    respond_to do |format|
+      if user_buy.save
+        format.html { redirect_to commercial_unit, notice: 'Commercial Unit was successfully purchased.' }
+        format.json { render :show, status: :created, location: commercial_unit }
+      else
+        flash[:alert] = commercial_unit.errors.full_messages.join(', ')
+        format.html { redirect_to commercial_units_url }
+        format.json { render json: commercial_unit.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def unbuy
+    commercial_unit = CommercialUnit.find(params[:commercial_unit_id])
+    user_buy = current_user.user_buys.find_by(buyings:commercial_unit)
+    respond_to do |format|
+      if user_buy.destroy
+        format.html { redirect_to commercial_unit, notice: 'Commercial Unit was successfully UnPurchased.' }
+        format.json { render :show, status: :created, location: commercial_unit }
+      else
+        flash[:alert] = commercial_unit.errors.full_messages.join(', ')
+        format.html { redirect_to commercial_units_url }
+        format.json { render json: commercial_unit.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # POST /commercial_units
   # POST /commercial_units.json
   def create
@@ -28,7 +59,7 @@ class CommercialUnitsController < ApplicationController
 
     respond_to do |format|
       if @commercial_unit.save
-        format.html { redirect_to @commercial_unit, notice: 'Commercial unit was successfully created.' }
+        format.html { redirect_to @commercial_unit, notice: 'Commercial Unit was successfully created.' }
         format.json { render :show, status: :created, location: @commercial_unit }
       else
         format.html { render :new }
@@ -42,7 +73,7 @@ class CommercialUnitsController < ApplicationController
   def update
     respond_to do |format|
       if @commercial_unit.update(commercial_unit_params)
-        format.html { redirect_to @commercial_unit, notice: 'Commercial unit was successfully updated.' }
+        format.html { redirect_to @commercial_unit, notice: 'Commercial Unit was successfully updated.' }
         format.json { render :show, status: :ok, location: @commercial_unit }
       else
         format.html { render :edit }
@@ -56,7 +87,7 @@ class CommercialUnitsController < ApplicationController
   def destroy
     @commercial_unit.destroy
     respond_to do |format|
-      format.html { redirect_to commercial_units_url, notice: 'Commercial unit was successfully destroyed.' }
+      format.html { redirect_to commercial_units_url, notice: 'Commercial Unit was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

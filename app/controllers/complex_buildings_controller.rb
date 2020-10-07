@@ -21,6 +21,37 @@ class ComplexBuildingsController < ApplicationController
   def edit
   end
 
+  def buy
+    complex_building = ComplexBuilding.find(params[:complex_building_id])
+    user_buy = current_user.user_buys.new
+    user_buy.buyings = complex_building
+    respond_to do |format|
+      if user_buy.save
+        format.html { redirect_to complex_building, notice: 'Complex Building was successfully purchased.' }
+        format.json { render :show, status: :created, location: complex_building }
+      else
+        flash[:alert] = complex_building.errors.full_messages.join(', ')
+        format.html { redirect_to complex_buildings_url }
+        format.json { render json: complex_building.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def unbuy
+    complex_building = ComplexBuilding.find(params[:complex_building_id])
+    user_buy = current_user.user_buys.find_by(buyings:complex_building)
+    respond_to do |format|
+      if user_buy.destroy
+        format.html { redirect_to complex_building, notice: 'Complex Building was successfully UnPurchased.' }
+        format.json { render :show, status: :created, location: complex_building }
+      else
+        flash[:alert] = complex_building.errors.full_messages.join(', ')
+        format.html { redirect_to complex_buildings_url }
+        format.json { render json: complex_building.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # POST /complex_buildings
   # POST /complex_buildings.json
   def create
@@ -28,7 +59,7 @@ class ComplexBuildingsController < ApplicationController
 
     respond_to do |format|
       if @complex_building.save
-        format.html { redirect_to @complex_building, notice: 'Complex building was successfully created.' }
+        format.html { redirect_to @complex_building, notice: 'Complex Building was successfully created.' }
         format.json { render :show, status: :created, location: @complex_building }
       else
         format.html { render :new }
@@ -42,7 +73,7 @@ class ComplexBuildingsController < ApplicationController
   def update
     respond_to do |format|
       if @complex_building.update(complex_building_params)
-        format.html { redirect_to @complex_building, notice: 'Complex building was successfully updated.' }
+        format.html { redirect_to @complex_building, notice: 'Complex Building was successfully updated.' }
         format.json { render :show, status: :ok, location: @complex_building }
       else
         format.html { render :edit }
@@ -56,7 +87,7 @@ class ComplexBuildingsController < ApplicationController
   def destroy
     @complex_building.destroy
     respond_to do |format|
-      format.html { redirect_to complex_buildings_url, notice: 'Complex building was successfully destroyed.' }
+      format.html { redirect_to complex_buildings_url, notice: 'Complex Building was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
