@@ -1,0 +1,42 @@
+<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col">
+    <h1>Assets</h1>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Type</th>
+      <th scope="col">Owner</th>
+      <th scope="col">Address</th>
+      <th scope="col">Sqmt</th>
+      <th scope="col">Price</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @all_assets.each do |asset| %>
+      <tr>
+        <td scope="row"><%= asset.id %></td>
+        <td><%= asset.class.name %></td>
+        <td><%= asset.owner %></td>
+        <td><%= asset.address %></td>
+        <td><%= asset.sqmt %></td>
+        <td><%= asset.price %></td>
+        <td>
+          <% if current_user.user_buys.exists?(buyings:asset) %> 
+              <%= link_to 'UnBuy', unbuy_home_index_path(type:asset.class.name,id:asset), class:"btn btn-primary" %>
+          <% else %>
+            <%= link_to 'Buy', buy_home_index_path(type:asset.class.name,id:asset), class:"btn btn-primary" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
