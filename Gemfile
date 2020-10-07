@@ -31,6 +31,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'pry'
 end
 
 group :development do
@@ -44,10 +45,27 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
+  gem 'shoulda-matchers'
+
+  gem 'capybara', '>= 2.15'
+  gem 'capybara-email'
+  gem 'email_spec'
+  gem 'factory_bot_rails'
+  gem 'rails-controller-testing'
+  gem 'rspec-rails', '~> 4.0', '>= 4.0.1'
+  gem 'jasmine'
+  
+  gem 'pronto', git: 'https://github.com/prontolabs/pronto.git'
+  gem 'pronto-brakeman'
+  gem 'pronto-rubocop'
+  #gem 'pronto-eslint_npm'
+  gem 'database_cleaner'
+  gem 'faker', '~> 2.10', '>= 2.10.2'
+  gem 'letter_opener'
+  gem 'pronto-scss'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
