@@ -1,0 +1,16 @@
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href=<%=houses_path%> >Houses</a>
+  <a href=<%=commercial_units_path%> >Commercial Units</a>
+  <a href=<%=complex_buildings_path%> >Complex Buildings</a>
+</div>
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+<script>
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+  }
+
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
+</script>
